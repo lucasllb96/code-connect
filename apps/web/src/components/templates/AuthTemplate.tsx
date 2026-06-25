@@ -8,8 +8,8 @@ export default function AuthTemplate({ children }: AuthTemplateProps) {
   return (
     <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-bg-dark p-4">
       {/* Watermark decorations */}
-      <WatermarkLogo className="absolute -top-16 -left-12 h-64 w-64 rotate-[-15deg] opacity-100" />
-      <WatermarkLogo className="absolute -right-16 -bottom-12 h-72 w-72 rotate-[15deg] opacity-100" />
+      <WatermarkLogo className="absolute -top-16 -left-12 h-64 w-64 -rotate-12 opacity-100" />
+      <WatermarkLogo className="absolute -right-16 -bottom-12 h-72 w-72 rotate-12 opacity-100" />
 
       {/* Main content */}
       <div className="relative z-10 flex w-full items-center justify-center">

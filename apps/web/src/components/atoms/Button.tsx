@@ -18,7 +18,7 @@ export default function Button({
 
   const variants = {
     primary:
-      'bg-gradient-to-r from-green-primary to-green-dark text-bg-dark py-3 px-6 hover:brightness-110 hover:shadow-lg hover:shadow-green-primary/20 active:scale-[0.98]',
+      'bg-gradient-to-r from-green-primary to-green-dark text-bg-dark py-3 px-6 hover:brightness-110 hover:shadow-lg hover:shadow-green-primary/20 active:scale-95',
     ghost:
       'text-green-primary hover:text-green-dark underline underline-offset-2',
   };

@@ -12,9 +12,9 @@ export default function AuthCard({
   children,
 }: AuthCardProps) {
   return (
-    <div className="animate-fade-in mx-4 flex w-full max-w-[820px] overflow-hidden rounded-2xl border border-card-border bg-card-bg shadow-2xl shadow-black/30">
+    <div className="animate-fade-in mx-4 flex w-full max-w-4xl overflow-hidden rounded-2xl border border-card-border bg-card-bg shadow-2xl shadow-black/30">
       {/* Banner */}
-      <div className="relative hidden w-[340px] shrink-0 md:block">
+      <div className="relative hidden w-84 shrink-0 md:block">
         <img
           src={bannerSrc}
           alt={bannerAlt}
@@ -28,7 +28,8 @@ export default function AuthCard({
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#4ADE80"
+              className="text-green-primary"
+              stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
