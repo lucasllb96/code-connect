@@ -49,6 +49,8 @@ describe('AuthService', () => {
         name: registerDto.name,
         email: registerDto.email,
         password: 'hashed-password',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
 
       const result = await authService.register(registerDto);
@@ -57,6 +59,8 @@ describe('AuthService', () => {
         id: '123',
         name: 'John Doe',
         email: 'john@example.com',
+        createdAt: expect.any(Date),
+        updatedAt: expect.any(Date),
       });
       expect(result).not.toHaveProperty('password');
     });
@@ -69,6 +73,8 @@ describe('AuthService', () => {
         name: registerDto.name,
         email: registerDto.email,
         password: 'hashed-password',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
 
       await authService.register(registerDto);
@@ -82,6 +88,8 @@ describe('AuthService', () => {
         name: 'Existing User',
         email: registerDto.email,
         password: 'some-hash',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
 
       await expect(authService.register(registerDto)).rejects.toThrow(
@@ -102,6 +110,8 @@ describe('AuthService', () => {
         name: 'John Doe',
         email: loginDto.email,
         password: 'hashed-password',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       mockJwtService.sign.mockReturnValue('jwt-token');
@@ -129,6 +139,8 @@ describe('AuthService', () => {
         name: 'John Doe',
         email: loginDto.email,
         password: 'hashed-password',
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 

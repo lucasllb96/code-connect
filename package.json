@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:reset": "pnpm --filter api exec prisma migrate reset",
     "web:dev": "pnpm --filter web run dev",
     "web:build": "pnpm --filter web run build",
     "api:dev": "pnpm --filter api run start:dev",
