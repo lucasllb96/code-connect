@@ -9,7 +9,7 @@ interface RegisterFormProps {
     email: string;
     password: string;
     rememberMe: boolean;
-  }) => void;
+  }) => Promise<void>;
 }
 
 export default function RegisterForm({ onSubmit }: RegisterFormProps) {
@@ -17,10 +17,26 @@ export default function RegisterForm({ onSubmit }: RegisterFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    onSubmit?.({ name, email, password, rememberMe });
+    setError(null);
+    if (onSubmit) {
+      setIsSubmitting(true);
+      try {
+        await onSubmit({ name, email, password, rememberMe });
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Ocorreu um erro ao fazer cadastro');
+        }
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
   };
 
   return (
@@ -62,8 +78,14 @@ export default function RegisterForm({ onSubmit }: RegisterFormProps) {
         onChange={(e) => setRememberMe(e.target.checked)}
       />
 
-      <Button type="submit" fullWidth>
-        Cadastrar
+      {error && (
+        <div className="rounded-lg bg-red-500/10 p-3 text-sm text-red-500 border border-red-500/20 text-center">
+          {error}
+        </div>
+      )}
+
+      <Button type="submit" fullWidth disabled={isSubmitting}>
+        {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

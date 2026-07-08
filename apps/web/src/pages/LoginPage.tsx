@@ -1,19 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthTemplate from '../components/templates/AuthTemplate';
 import AuthCard from '../components/organisms/AuthCard';
 import LoginForm from '../components/molecules/LoginForm';
 import SocialLoginGroup from '../components/molecules/SocialLoginGroup';
+import { useAuth } from '../contexts/AuthContext';
 
 const LOGIN_BANNER = '/login-banner-new.png';
 
 export default function LoginPage() {
-  const handleLogin = (data: {
-    identifier: string;
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (data: {
+    email: string;
     password: string;
     rememberMe: boolean;
   }) => {
-    // TODO: integrate with auth API
-    console.log('Login attempt:', data);
+    await login(data);
+    navigate('/');
   };
 
   return (

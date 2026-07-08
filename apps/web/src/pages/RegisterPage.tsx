@@ -1,20 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthTemplate from '../components/templates/AuthTemplate';
 import AuthCard from '../components/organisms/AuthCard';
 import RegisterForm from '../components/molecules/RegisterForm';
 import SocialLoginGroup from '../components/molecules/SocialLoginGroup';
+import { useAuth } from '../contexts/AuthContext';
 
 const REGISTER_BANNER = '/image.png';
 
 export default function RegisterPage() {
-  const handleRegister = (data: {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const handleRegister = async (data: {
     name: string;
     email: string;
     password: string;
     rememberMe: boolean;
   }) => {
-    // TODO: integrate with auth API
-    console.log('Register attempt:', data);
+    await register(data);
+    navigate('/');
   };
 
   return (
