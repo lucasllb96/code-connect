@@ -42,19 +42,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [token, fetchUser]);
 
-  const login = async (data: LoginRequest) => {
-    const response = await authService.loginUser(data);
+  const login = async (data: LoginRequest & { rememberMe?: boolean }) => {
+    const { rememberMe: _, ...loginPayload } = data;
+    void _;
+    const response = await authService.loginUser(loginPayload);
     const newToken = response.access_token;
-    
+
     localStorage.setItem('cc_token', newToken);
     setToken(newToken);
-    
+
     const userData = await authService.getMe();
     setUser(userData);
   };
 
-  const register = async (data: RegisterRequest) => {
-    await authService.registerUser(data);
+  const register = async (data: RegisterRequest & { rememberMe?: boolean }) => {
+    const { rememberMe: _, ...registerPayload } = data;
+    void _;
+    await authService.registerUser(registerPayload);
     await login({ email: data.email, password: data.password });
   };
 

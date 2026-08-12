@@ -27,6 +27,7 @@ export class AuthService {
       name: registerDto.name,
       email: registerDto.email,
       password: hashedPassword,
+      avatarUrl: registerDto.avatarUrl,
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

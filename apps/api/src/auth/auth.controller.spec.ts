@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ValidationPipe } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
 const mockAuthService = {
   register: jest.fn(),
@@ -67,5 +72,73 @@ describe('AuthController', () => {
 
       expect(result).toEqual(mockUser);
     });
+  });
+});
+
+describe('RegisterDto validation', () => {
+  it('should reject a body that contains rememberMe', async () => {
+    const body = plainToInstance(RegisterDto, {
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: 'password123',
+      rememberMe: true,
+    });
+
+    const errors = await validate(body, {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
+
+    expect(errors.length).toBeGreaterThan(0);
+    const messages = errors.flatMap((e) => Object.values(e.constraints ?? {}));
+    expect(messages.some((m) => m.includes('rememberMe'))).toBe(true);
+  });
+
+  it('should accept a valid register body without rememberMe', async () => {
+    const body = plainToInstance(RegisterDto, {
+      name: 'John Doe',
+      email: 'john@example.com',
+      password: 'password123',
+    });
+
+    const errors = await validate(body, {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
+
+    expect(errors.length).toBe(0);
+  });
+});
+
+describe('LoginDto validation', () => {
+  it('should reject a body that contains rememberMe', async () => {
+    const body = plainToInstance(LoginDto, {
+      email: 'john@example.com',
+      password: 'password123',
+      rememberMe: true,
+    });
+
+    const errors = await validate(body, {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
+
+    expect(errors.length).toBeGreaterThan(0);
+    const messages = errors.flatMap((e) => Object.values(e.constraints ?? {}));
+    expect(messages.some((m) => m.includes('rememberMe'))).toBe(true);
+  });
+
+  it('should accept a valid login body without rememberMe', async () => {
+    const body = plainToInstance(LoginDto, {
+      email: 'john@example.com',
+      password: 'password123',
+    });
+
+    const errors = await validate(body, {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
+
+    expect(errors.length).toBe(0);
   });
 });
